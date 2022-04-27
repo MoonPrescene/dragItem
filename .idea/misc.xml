@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/layout/fragment_personal.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/layout/fragment_setting.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/layout/item_list_button_size.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/menu/item_navigate.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev/Android/AndroiStudioProjects/dragItem/app/src/main/res/menu/menu_back.xml" value="0.36666666666666664" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
