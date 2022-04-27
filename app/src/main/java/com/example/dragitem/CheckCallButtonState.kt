@@ -7,8 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "CheckCallButtonState")
 class CheckCallButtonState(
 
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 1,
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    var id: String = "default_id",
 
     @ColumnInfo(name = "positionX")
     var x: Float = 0.0f,

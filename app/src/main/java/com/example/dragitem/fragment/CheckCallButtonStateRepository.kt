@@ -11,4 +11,8 @@ class CheckCallButtonStateRepository(private val checkCallButtonStateDao: CheckC
     fun insertCheckCallButtonState(checkCallButtonState: CheckCallButtonState){
         checkCallButtonStateDao.insertCheckCallButtonState(checkCallButtonState)
     }
+
+    fun setState(isVisible: Boolean){
+        checkCallButtonStateDao.setState(isVisible)
+    }
 }
