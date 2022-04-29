@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     private var a = 0F
     private var b = 0F
     private lateinit var checkCallButtonState: CheckCallButtonState
-    val TAG = "_BUTTON_STATE"
+    val TAG = "_BUTTON_SIZE_STATE"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,24 +46,28 @@ class HomeFragment : Fragment() {
 
         subscribeUi()
 
-//        setUpDraggableButton(checkCallButtonState)
+//      setUpDraggableButton(checkCallButtonState)
         return binding.root
     }
 
     private fun subscribeUi() {
+
         Log.d(TAG, "Get button state")
         viewModel.apply {
+            /*getCheckCallButtonStates().observe(viewLifecycleOwner){
+                Log.d(TAG, "STATES: $it")
+            }*/
             getCheckCallButtonState().observe(viewLifecycleOwner){
                 if (it != null){
                     checkCallButtonState = it
 
                     //handle show button
-                    Log.d(TAG, "BS != null -> show button state")
+                    Log.d(TAG, "BS != null -> show button state, new size button ${checkCallButtonState.size}")
                     setUpDraggableButton(it)
                 }else{
                     Log.d(TAG, "BS == null -> save new button state")
                     //handle save button state
-                    val buttonState = CheckCallButtonState("default_id", 100f, 100f, true, 0)
+                    val buttonState = CheckCallButtonState("default_id", 0f, 0f, true, 0)
                     insertCheckCallButtonState(buttonState)
                 }
             }
@@ -72,17 +76,21 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     private fun setUpDraggableButton(checkCallButtonState: CheckCallButtonState) {
-        val params = binding.textView.layoutParams
+
         if (checkCallButtonState.state){
             binding.textView.visibility = View.VISIBLE
         }else{
             binding.textView.visibility = View.GONE
         }
         binding.apply {
-            textView.x = checkCallButtonState.x
-            textView.y = checkCallButtonState.y
+            Log.d("_SAVE_POSITION", "show x: ${textView.x} || y: ${textView.y}")
+
+            textView.post {
+                textView.x = checkCallButtonState.x
+                textView.y = checkCallButtonState.y
+            }
         }
-        val sizeY = setSizeButtonHeight(checkCallButtonState.size)
+        val sizeY = checkCallButtonState.getSizeButton(resources)
         val sizeX = sizeY*0.75f
 
         binding.textView.layoutParams.height = sizeY.toInt()
@@ -125,43 +133,34 @@ class HomeFragment : Fragment() {
                     if ( a==movedX && b == movedY ){
                         //Toast.makeText(this, "SHowToast", Toast.LENGTH_SHORT).show()
                         navigationToSettingFragment()
+                    }else{
+                        a = movedX
+                        b = movedY
+
+
+                        binding.apply {
+                            if (textView.x >= width - sizeX) {
+                                textView.x = width - sizeX
+                            }
+                            if (textView.x <= 0){
+                                textView.x = 0f
+                            }
+
+                            if (textView.y <= 0){
+                                textView.y = 0f
+                            }
+
+                            if (textView.y >= height - sizeY){
+                                textView.y = height - sizeY
+                            }
+
+                            Toast.makeText(requireContext(), "${textView.y}-${height}", Toast.LENGTH_SHORT).show()
+
+                            viewModel.setCheckCallCButtonPosition(textView.x, textView.y)
+                        }
                     }
 
-                    a = movedX
-                    b = movedY
 
-
-                    binding.apply {
-                        if (textView.x >= width - sizeX) {
-                            textView.x = width - sizeX
-                        }
-                        if (textView.x <= 0){
-                            textView.x = 0f
-                        }
-
-                        if (textView.y <= 0){
-                            textView.y = 0f
-                        }
-
-                        if (textView.y >= height - sizeY){
-                            textView.y = height - sizeY
-                        }
-
-                        Toast.makeText(requireContext(), "${textView.y}-${height}", Toast.LENGTH_SHORT).show()
-//                        if (textView.y >= height - sizeY) {
-//                            textView.y = height - sizeY
-//                        }
-//                        if (textView.y <= sizeY) {
-//
-//                        }sizeY
-
-                        saveCheckCallButtonState(checkCallButtonState.id,
-                            textView.x,
-                            textView.y,
-                            checkCallButtonState.size,
-                            checkCallButtonState.state)
-
-                    }
                 }
 
                 MotionEvent.ACTION_CANCEL ->{
@@ -182,26 +181,4 @@ class HomeFragment : Fragment() {
         val action = HomeFragmentDirections.actionHomeFragmentToSettingFragment()
         findNavController().navigate(action)
     }
-
-    private fun saveCheckCallButtonState(id: String, x: Float, y: Float, size: Int, state: Boolean) {
-        val checkCallButtonState = CheckCallButtonState(id, x, y, state, size)
-        viewModel.apply {
-            insertCheckCallButtonState(checkCallButtonState)
-        }
-    }
-
-    private fun setSizeButtonHeight(size: Int): Float{
-        var heightOfButton: Float = 0f
-        if (size == 0){
-            heightOfButton = resources.getDimension(R.dimen.large)
-        }
-        if (size == 1){
-            heightOfButton = resources.getDimension(R.dimen.medium)
-        }
-        if (size == 2){
-            heightOfButton = resources.getDimension(R.dimen.small)
-        }
-        return heightOfButton
-    }
-
 }

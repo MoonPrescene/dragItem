@@ -27,7 +27,7 @@ class SettingFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingBinding
     private var buttonSizes = ButtonSize.values()
-    val TAG = "_BUTTON_STATE"
+    val TAG = "_BUTTON_SIZE_STATE"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +44,6 @@ class SettingFragment : Fragment() {
 
         //Get state of check call button state
         subscribeUi()
-//
-//        if (checkCallButtonState.state){
-//            binding.checkButton.isChecked
-//        }
 
         activity?.actionBar?.hide()
 
@@ -60,15 +56,12 @@ class SettingFragment : Fragment() {
         )
         binding.spinner.adapter = arrayAdapter
 
-
-        //Check change state and size of button
-        /*binding.spinner.setOnItemClickListener { _, _, position, _ ->
-            sizeButton = buttonSizes[position].size
-        }*/
-
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                Log.d(TAG, "index of spinner: $position")
                 sizeButton = buttonSizes[position].size
+                Log.d(TAG, "update new size button: $sizeButton")
+                viewModel.setSize(sizeButton)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -82,24 +75,6 @@ class SettingFragment : Fragment() {
             viewModel.setState(isChecked)
         }
 
-        //save new state of button
-//        saveCheckCallButtonState(checkCallButtonState.id, checkCallButtonState.x, checkCallButtonState.y, sizeButton, buttonState)
-
-//        val sizeName = binding.autoCompleteTextView.selectedItem.toString()
-//        when(sizeName){
-//            ButtonSize.SMALL.sizeName -> sizeButton = ButtonSize.SMALL.size
-//            ButtonSize.MEDIUM.sizeName -> sizeButton = ButtonSize.MEDIUM.size
-//            ButtonSize.LARGE.sizeName -> sizeButton = ButtonSize.LARGE.size
-//        }
-//
-//        binding.backButton.setOnClickListener {
-//            popToHomeFragment(buttonState, sizeButton)
-//        }
-
-//        buttonState = SettingFragmentArgs.fromBundle(requireArguments(requireArguments)).state
-//        sizeButton = SettingFragmentArgs.fromBundle(requireArguments()).size
-
-
         binding.backButton.setOnClickListener {
             popToHomeFragment()
         }
@@ -112,16 +87,19 @@ class SettingFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun saveCheckCallButtonState(id: String, x: Float, y: Float, size: Int, state: Boolean) {
-        val checkCallButtonState = CheckCallButtonState(id, x, y, state, size)
-        viewModel.insertCheckCallButtonState(checkCallButtonState)
+    private fun showSizeOfButton(index: Int){
+        binding.apply {
+            spinner.post { spinner.setSelection(index)}
+        }
     }
 
     private fun subscribeUi() {
         viewModel.apply {
             getCheckCallButtonState().observe(viewLifecycleOwner){
                 if (it != null){
+                    Log.d(TAG, "lmao " + it.toMap())
                     checkCallButtonState = it
+                    showSizeOfButton(checkCallButtonState.size)
                 }
             }
         }
@@ -130,7 +108,7 @@ class SettingFragment : Fragment() {
 }
 
 enum class ButtonSize(val sizeName: String = "", val size: Int ){
-    SMALL("Nho", 2),
+    LARGE("Lon", 0),
     MEDIUM("Trung binh", 1),
-    LARGE("Lon", 0)
+    SMALL("Nho", 2)
 }

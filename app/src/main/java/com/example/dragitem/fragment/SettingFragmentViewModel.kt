@@ -28,5 +28,7 @@ class SettingFragmentViewModel(application: Application): AndroidViewModel(appli
         repository.setState(isVisible)
     }
 
-
+    fun setSize(sizeOfButton: Int){
+        repository.setSize(sizeOfButton)
+    }
 }

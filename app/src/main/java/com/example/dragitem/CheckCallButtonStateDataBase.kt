@@ -5,7 +5,7 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.example.dragitem.fragment.CheckCallButtonStateDao
 
-@Database(entities = [CheckCallButtonState::class], version = 1)
+@Database(entities = [CheckCallButtonState::class], version = 2)
 abstract class CheckCallButtonStateDataBase: RoomDatabase() {
 
     abstract fun checkCallButtonStateDao(): CheckCallButtonStateDao

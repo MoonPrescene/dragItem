@@ -1,5 +1,6 @@
 package com.example.dragitem
 
+import android.content.res.Resources
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -22,4 +23,16 @@ class CheckCallButtonState(
 
     @ColumnInfo(name = "size")
     var size: Int = 0
-)
+){
+    fun getSizeButton(resources: Resources): Float{
+        return when (size){
+            0 -> resources.getDimension(R.dimen.large)
+            1 -> resources.getDimension(R.dimen.medium)
+            else ->  resources.getDimension(R.dimen.small)
+        }
+    }
+
+    fun toMap(): String {
+        return "x: $x || y: $y || s: $size"
+    }
+}
