@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <style name="SwitchCompat2">
+       <item name="android:height">
+           @dimen/heightSwitchCompat
+       </item>
+       <item name="android:width">
+           @dimen/widthSwitchCompat
+       </item>
+   </style>
+</resources>

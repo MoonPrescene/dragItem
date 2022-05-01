@@ -7,6 +7,9 @@
     <string name="showCheckCall">Hiện nút check call</string>
     <string name="k_ch_c_n_t">Kích cỡ nút</string>
     <string name="setting">Setting</string>
+    <string name="large">Lớn</string>
+    <string name="medium">Trung bình</string>
+    <string name="nh">Nhỏ</string>
     <string-array name="buttonSize">
         <item>Lớn</item>
         <item>Trung bình</item>
